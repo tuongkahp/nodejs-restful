@@ -27,9 +27,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = require("./src/models");
 const Template = db.template;
 const Role = db.role;
+const Product = db.product;
 // const url = `mongodb://${dbConfig.USER}:${dbConfig.PASS}@${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}?authSource=admin&w=1`;
-const url = `mongodb://35.198.204.184:1001/ktode-db`;
-console.log('url: ', url);
+const url = `mongodb://34.126.102.192:1001/nodejs-restful`;
 
 db.mongoose
   .connect(url, {
@@ -37,7 +37,7 @@ db.mongoose
       "authSource": "admin"
     },
     "user": "admin",
-    "pass": "12345678Abc@"
+    "pass": "123456Abc@"
   })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
@@ -57,6 +57,7 @@ app.get("/", (req, res) => {
 require("./src/routes/auth.routes")(app);
 require("./src/routes/user.routes")(app);
 require("./src/routes/template.routes")(app);
+require("./src/routes/product.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3005;
@@ -124,6 +125,41 @@ function initial() {
 
       //   console.log("added template2 to templates collection");
       // });
+    }
+  });
+
+  Product.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      const lstProducts = [
+        {
+          name: 'Sản phẩm 1', code: 'SP000001',
+          images: ['https://im.uniqlo.com/images/common/pc/goods/424873/item/56_424873.jpg', 'https://im.uniqlo.com/images/common/pc/goods/424873/item/65_424873.jpg'],
+          details: [
+            {
+              color: 'gray',
+              size: 'M',
+              image: 'https://im.uniqlo.com/images/common/pc/goods/424873/item/08_424873.jpg',
+              inventory: 14
+            }, {
+              color: 'red',
+              size: 'M',
+              image: 'https://im.uniqlo.com/images/common/pc/goods/424873/item/08_424873.jpg',
+              inventory: 14
+            }
+          ],
+          isDeleted: false, price: 250000, promotionalPrice: 200000, sold: 125, review: 50, rating: 4.5
+        }
+      ]
+
+      lstProducts.forEach(x => {
+        new Product(x).save(err => {
+          if (err) {
+            console.log("error", err);
+          }
+
+          console.log(`added ${x.code} to templates collection`);
+        })
+      })
     }
   });
 }
