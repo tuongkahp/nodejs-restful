@@ -5,21 +5,43 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
 const db = require("../../models");
-const User = db.user;
-const Role = db.role;
-const Template = db.template;
+const mockProductData = require("../../../mockProductData");
+const Product = db.template;
 
 exports.get = async (req, res) => {
-  const pageLength = 6
-  let page = req.query?.page || 1
-  page = page < 1 ? 1 : page
   let responseCode = constResCode.FAILURE
-  let lstTemplates = null
+  let lstProducts = null
   let total = null
 
+  const page = parseInt(req.query?.page || 1)
+  const limit = parseInt(req.query?.limit || 10)
+
+  if (page < 1 || limit < 1) {
+    res.send({ responseCode })
+  }
+
+  const categoryCode = req.query?.categoryCode
+
+
   try {
-    lstTemplates = await Template.find({}).sort({ '_id': 1 }).skip((page - 1) * pageLength).limit(pageLength)
-    total = await Template.find({}).count()
+    lstProducts = mockProductData
+
+    if (categoryCode) {
+      lstProducts = lstProducts.filter(x => x.category.code === categoryCode)
+    }
+
+    total = lstProducts.length
+    const index = (page - 1) * limit
+
+    if (index > total) {
+      res.send({
+        responseCode: constResCode.SUCCESS,
+        lstProducts: [],
+        total
+      })
+    }
+
+    lstProducts = lstProducts.slice(index, index + limit)
   }
   catch (err) {
     console.log(err)
@@ -28,55 +50,7 @@ exports.get = async (req, res) => {
 
   res.send({
     responseCode: constResCode.SUCCESS,
-    lstTemplates,
-    total
-  })
-};
-
-exports.add = async (req, res) => {
-  const pageLength = 6
-  let page = req.query?.page || 1
-  page = page < 1 ? 1 : page
-  let responseCode = constResCode.FAILURE
-  let lstTemplates = null
-  let total = null
-
-  try {
-    lstTemplates = await Template.find({}).sort({ '_id': 1 }).skip((page - 1) * pageLength).limit(pageLength)
-    total = await Template.find({}).count()
-  }
-  catch (err) {
-    console.log(err)
-    res.send({ responseCode })
-  }
-
-  res.send({
-    responseCode: constResCode.SUCCESS,
-    lstTemplates,
-    total
-  })
-};
-
-exports.update = async (req, res) => {
-  const pageLength = 6
-  let page = req.query?.page || 1
-  page = page < 1 ? 1 : page
-  let responseCode = constResCode.FAILURE
-  let lstTemplates = null
-  let total = null
-
-  try {
-    lstTemplates = await Template.find({}).sort({ '_id': 1 }).skip((page - 1) * pageLength).limit(pageLength)
-    total = await Template.find({}).count()
-  }
-  catch (err) {
-    console.log(err)
-    res.send({ responseCode })
-  }
-
-  res.send({
-    responseCode: constResCode.SUCCESS,
-    lstTemplates,
+    lstProducts,
     total
   })
 };
