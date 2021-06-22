@@ -11,4 +11,5 @@ module.exports = function (app) {
   });
 
   app.get("/api/v1/products", controller.get);
+  app.get("/api/v1/product-detail/:productCode", controller.getDetail);
 };

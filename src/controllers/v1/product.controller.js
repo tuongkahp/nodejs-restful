@@ -21,13 +21,24 @@ exports.get = async (req, res) => {
   }
 
   const categoryCode = req.query?.categoryCode
-
+  const sortType = parseInt(req.query?.sortType || 0)
+  const sortValue = parseInt(req.query?.sortValue || 0)
 
   try {
     lstProducts = mockProductData
 
     if (categoryCode) {
       lstProducts = lstProducts.filter(x => x.category.code === categoryCode)
+    }
+
+    if (sortType) {
+      switch (sortType) {
+        case 1:
+          lstProducts = lstProducts.sort((x, y) => sortValue * (x.promotionalPrice - y.promotionalPrice))
+          break;
+        case 2:
+          lstProducts = lstProducts.sort((x, y) => sortValue * (x.sold - y.sold))
+      }
     }
 
     total = lstProducts.length
@@ -54,3 +65,23 @@ exports.get = async (req, res) => {
     total
   })
 };
+
+exports.getDetail = async (req, res) => {
+  let responseCode = constResCode.FAILURE
+  let productCode = req.params.productCode
+  let product = null
+
+  try {
+    product = mockProductData.find(x => x.code === productCode)
+  }
+  catch (err) {
+    console.log(err)
+    res.send({ responseCode })
+  }
+
+  res.send({
+    responseCode: constResCode.SUCCESS,
+    product
+  })
+};
+
