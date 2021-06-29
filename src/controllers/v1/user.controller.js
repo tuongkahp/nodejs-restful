@@ -108,7 +108,7 @@ exports.updateUserInfo = (req, res) => {
         res.send({
           code: constResCode.SUCCESS, message: "Success", data: {
             fullName: user.fullName,
-            address: user.address,
+            phoneNumber: user.phoneNumber,
             address: user.address,
             avatarUrl: user.avatarUrl
           }
