@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require('dotenv').config();
 // const dbConfig = require("../configs/db.config");
 
 // config path
@@ -30,15 +31,16 @@ const Template = db.template;
 const Role = db.role;
 const Product = db.product;
 // const url = `mongodb://${dbConfig.USER}:${dbConfig.PASS}@${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}?authSource=admin&w=1`;
-const url = `mongodb://34.126.102.192:1001/nodejs-restful`;
+// const url = `mongodb://34.126.102.192:1001/nodejs-restful`;
+const url = process.env.MONGODB_URI
 
 db.mongoose
   .connect(url, {
     "auth": {
       "authSource": "admin"
     },
-    "user": "admin",
-    "pass": "123456Abc@"
+    "user": process.env.MONGODB_USER,
+    "pass": process.env.MONGODB_PASS
   })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
