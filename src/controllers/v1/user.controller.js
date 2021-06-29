@@ -95,6 +95,7 @@ exports.updateUserInfo = (req, res) => {
       user.fullName = req.body.fullName
       user.phoneNumber = req.body.phoneNumber
       user.address = req.body.address
+      user.avatarUrl = req.body.avatarUrl
 
       user.save(async (err, user) => {
         if (err) {
@@ -104,7 +105,14 @@ exports.updateUserInfo = (req, res) => {
           });
         }
 
-        res.send({ code: constResCode.SUCCESS, message: "Success" });
+        res.send({
+          code: constResCode.SUCCESS, message: "Success", data: {
+            fullName: user.fullName,
+            address: user.address,
+            address: user.address,
+            avatarUrl: user.avatarUrl
+          }
+        });
       })
     });
 };
