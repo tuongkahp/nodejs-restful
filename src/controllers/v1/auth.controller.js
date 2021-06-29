@@ -48,9 +48,9 @@ exports.login = (req, res) => {
 
       if (!passwordIsValid) {
         return res.send({
-          code: constResCode.FAILURE,
+          code: constResCode.WRONG_PASSWORD,
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid password"
         });
       }
 
@@ -73,7 +73,7 @@ exports.login = (req, res) => {
         roles: authorities,
         accessToken: token,
         expiredTime: moment().add(7, 'days'),
-        refreshToken: "123456"
+        refreshToken: ''
       });
     });
 };

@@ -17,7 +17,7 @@ exports.getTemplate = async (req, res) => {
   const pageLength = 6
   let page = req.query?.page || 1
   page = page < 1 ? 1 : page
-  let responseCode = constResCode.FAILURE
+  let code = constResCode.FAILURE
   let lstTemplates = null
   let total = null
 
@@ -27,11 +27,11 @@ exports.getTemplate = async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.send({ responseCode })
+    res.send({ code })
   }
 
   res.send({
-    responseCode: constResCode.SUCCESS,
+    code: constResCode.SUCCESS,
     lstTemplates,
     total
   })

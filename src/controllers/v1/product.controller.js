@@ -9,7 +9,7 @@ const mockProductData = require("../../../mockProductData");
 const Product = db.template;
 
 exports.get = async (req, res) => {
-  let responseCode = constResCode.FAILURE
+  let code = constResCode.FAILURE
   let lstProducts = null
   let total = null
 
@@ -17,7 +17,7 @@ exports.get = async (req, res) => {
   const limit = parseInt(req.query?.limit || 10)
 
   if (page < 1 || limit < 1) {
-    res.send({ responseCode })
+    res.send({ code: code })
   }
 
   const categoryCode = req.query?.categoryCode
@@ -46,7 +46,7 @@ exports.get = async (req, res) => {
 
     if (index > total) {
       res.send({
-        responseCode: constResCode.SUCCESS,
+        code: constResCode.SUCCESS,
         lstProducts: [],
         total
       })
@@ -56,18 +56,18 @@ exports.get = async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.send({ responseCode })
+    res.send({ code: code })
   }
 
   res.send({
-    responseCode: constResCode.SUCCESS,
+    code: constResCode.SUCCESS,
     lstProducts,
     total
   })
 };
 
 exports.getDetail = async (req, res) => {
-  let responseCode = constResCode.FAILURE
+  let code = constResCode.FAILURE
   let productCode = req.params.productCode
   let product = null
 
@@ -76,11 +76,11 @@ exports.getDetail = async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.send({ responseCode })
+    res.send({ code })
   }
 
   res.send({
-    responseCode: constResCode.SUCCESS,
+    code: constResCode.SUCCESS,
     product
   })
 };

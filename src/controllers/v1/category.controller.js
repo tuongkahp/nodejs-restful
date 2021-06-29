@@ -9,7 +9,7 @@ const mockCategoryData = require("../../../mockCategoryData");
 
 exports.get = async (req, res) => {
   res.send({
-    responseCode: constResCode.SUCCESS,
+    code: constResCode.SUCCESS,
     lstCategories: mockCategoryData
   })
 };

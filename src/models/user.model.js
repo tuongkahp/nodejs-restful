@@ -8,6 +8,7 @@ const User = mongoose.model(
     password: String,
     phoneNumber: String,
     avatarUrl: String,
+    address: String,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

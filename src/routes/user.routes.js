@@ -27,8 +27,20 @@ module.exports = function (app) {
   );
 
   app.get(
-    "/api/v1/user/info",
+    "/api/v1/user",
     [authJwt.verifyToken],
     controller.getUserInfo
+  );
+
+  app.put(
+    "/api/v1/user/change-pass",
+    [authJwt.verifyToken],
+    controller.changePass
+  );
+
+  app.put(
+    "/api/v1/user",
+    [authJwt.verifyToken],
+    controller.changePass
   );
 };
