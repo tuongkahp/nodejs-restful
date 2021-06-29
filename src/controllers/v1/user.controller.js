@@ -115,5 +115,5 @@ exports.uploadFile = (req, res) => {
     res.status(500);
     return next(err);
   }
-  res.json({ fileUrl: 'http:localhost:3005/images/' + req.file.filename });
+  res.json({ fileUrl: '/images/' + req.file.filename });
 }

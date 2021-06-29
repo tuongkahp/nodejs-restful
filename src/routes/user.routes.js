@@ -41,6 +41,6 @@ module.exports = function (app) {
   app.put(
     "/api/v1/user",
     [authJwt.verifyToken],
-    controller.changePass
+    controller.updateUserInfo
   );
 };
