@@ -18,7 +18,8 @@ exports.register = async (req, res) => {
     password: req.body.password,
     fullName: req.body.fullName,
     phoneNumber: req.body.phoneNumber,
-    avatarUrl: req.body.avatarUrl
+    avatarUrl: req.body.avatarUrl,
+    gender: req.body.gender ?? 0
   };
 
   const roles = req.body.roles;
