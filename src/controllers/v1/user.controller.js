@@ -41,6 +41,7 @@ exports.getUserInfo = (req, res) => {
           fullName: user.fullName,
           phoneNumber: user.phoneNumber ?? '',
           address: user.address ?? '',
+          gender: user.gender,
           avatarUrl: user.avatarUrl ?? 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
         }
       });
@@ -96,6 +97,7 @@ exports.updateUserInfo = (req, res) => {
       user.phoneNumber = req.body.phoneNumber
       user.address = req.body.address
       user.avatarUrl = req.body.avatarUrl
+      user.gender = req.body.gender
 
       user.save(async (err, user) => {
         if (err) {
@@ -110,7 +112,8 @@ exports.updateUserInfo = (req, res) => {
             fullName: user.fullName,
             phoneNumber: user.phoneNumber,
             address: user.address,
-            avatarUrl: user.avatarUrl
+            avatarUrl: user.avatarUrl,
+            gender: user.gender
           }
         });
       })
