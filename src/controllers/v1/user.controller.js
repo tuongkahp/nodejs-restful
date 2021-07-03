@@ -41,7 +41,7 @@ exports.getUserInfo = (req, res) => {
           fullName: user.fullName,
           phoneNumber: user.phoneNumber ?? '',
           address: user.address ?? '',
-          gender: user.gender,
+          gender: user.gender ?? 0,
           avatarUrl: user.avatarUrl ?? 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
         }
       });
