@@ -8,7 +8,7 @@ require('dotenv').config();
 var path = require('path');
 
 global._require = function (path) { //I call it 'reversal require'
-  return require(path.join(__dirname, path));
+	return require(path.join(__dirname, path));
 }
 
 const app = express();
@@ -34,102 +34,110 @@ const Product = db.product;
 // const url = `mongodb://34.126.102.192:1001/nodejs-restful`;
 const url = process.env.MONGODB_URI
 
-db.mongoose
-  .connect(url, {
-    "auth": {
-      "authSource": "admin"
-    },
-    "user": process.env.MONGODB_USER,
-    "pass": process.env.MONGODB_PASS
-  })
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial();
-  })
-  .catch(err => {
-    console.error("Connection error", err);
-    process.exit();
-  });
+// Connect mongo
+// db.mongoose
+// 	.connect(url, {
+// 		"auth": {
+// 			"authSource": "admin"
+// 		},
+// 		"user": process.env.MONGODB_USER,
+// 		"pass": process.env.MONGODB_PASS
+// 	})
+// 	.then(() => {
+// 		console.log("Successfully connect to MongoDB.");
+// 		initial();
+// 	})
+// 	.catch(err => {
+// 		console.error("Connection error", err);
+// 		process.exit();
+// 	});
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+	res.json({ message: "Welcome to bezkoder application." });
 });
 
-// routes
-require("./src/routes/auth.routes")(app);
-require("./src/routes/user.routes")(app);
-require("./src/routes/template.routes")(app);
-require("./src/routes/product.routes")(app);
-require("./src/routes/category.routes")(app);
-require("./src/routes/file.routes")(app);
+// routes v1
+// require("./src/routes/auth.routes")(app);
+// require("./src/routes/user.routes")(app);
+// require("./src/routes/template.routes")(app);
+// require("./src/routes/product.routes")(app);
+// require("./src/routes/category.routes")(app);
+// require("./src/routes/file.routes")(app);
+
+require("./src/routes/v2/auth.routes")(app);
+require("./src/routes/v2/user.routes")(app);
+// require("./src/routes/v2/template.routes")(app);
+// require("./src/routes/v2/product.routes")(app);
+// require("./src/routes/v2/category.routes")(app);
+// require("./src/routes/v2/file.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+	console.log(`Server is running on port ${PORT}.`);
 });
 
 function initial() {
-  Role.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      const lstRoles = [
-        { name: "user" },
-        { name: "moderator" },
-        { name: "admin" }
-      ]
+	Role.estimatedDocumentCount((err, count) => {
+		if (!err && count === 0) {
+			const lstRoles = [
+				{ name: "user" },
+				{ name: "moderator" },
+				{ name: "admin" }
+			]
 
-      lstRoles.forEach(role => {
-        new Role(role).save(err => {
-          if (err) {
-            console.log("error", err);
-          }
+			lstRoles.forEach(role => {
+				new Role(role).save(err => {
+					if (err) {
+						console.log("error", err);
+					}
 
-          console.log(`added ${role.name} to roles collection`);
-        });
-      })
-    }
-  });
+					console.log(`added ${role.name} to roles collection`);
+				});
+			})
+		}
+	});
 
-  Template.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      const lstTemplates = [
-        { name: 'Thiên đường', code: 'TPL000001', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Hiện đại', code: 'TPL000002', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển', code: 'TPL000003', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 2', code: 'TPL000004', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 3', code: 'TPL000005', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 4', code: 'TPL000006', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 5', code: 'TPL000007', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 6', code: 'TPL000008', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 7', code: 'TPL000009', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 8', code: 'TPL000010', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 9', code: 'TPL000011', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
-        { name: 'Cổ điển 10', code: 'TPL000012', imageUrl: '', previewUrl: 'https://twinkleworld.online/' }
-      ]
+	Template.estimatedDocumentCount((err, count) => {
+		if (!err && count === 0) {
+			const lstTemplates = [
+				{ name: 'Thiên đường', code: 'TPL000001', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Hiện đại', code: 'TPL000002', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển', code: 'TPL000003', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 2', code: 'TPL000004', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 3', code: 'TPL000005', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 4', code: 'TPL000006', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 5', code: 'TPL000007', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 6', code: 'TPL000008', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 7', code: 'TPL000009', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 8', code: 'TPL000010', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 9', code: 'TPL000011', imageUrl: '', previewUrl: 'https://twinkleworld.online/' },
+				{ name: 'Cổ điển 10', code: 'TPL000012', imageUrl: '', previewUrl: 'https://twinkleworld.online/' }
+			]
 
-      lstTemplates.forEach(template => {
-        new Template(template).save(err => {
-          if (err) {
-            console.log("error", err);
-          }
+			lstTemplates.forEach(template => {
+				new Template(template).save(err => {
+					if (err) {
+						console.log("error", err);
+					}
 
-          console.log(`added ${template.code} to templates collection`);
-        })
-      })
+					console.log(`added ${template.code} to templates collection`);
+				})
+			})
 
-      // new Template({
-      //   name: "Cổ điển",
-      //   code: "TP00000002",
-      //   imageUrl: '',
-      //   previewUrl: 'https://twinkleworld.online/'
-      // }).save(err => {
-      //   if (err) {
-      //     console.log("error", err);
-      //   }
+			// new Template({
+			//   name: "Cổ điển",
+			//   code: "TP00000002",
+			//   imageUrl: '',
+			//   previewUrl: 'https://twinkleworld.online/'
+			// }).save(err => {
+			//   if (err) {
+			//     console.log("error", err);
+			//   }
 
-      //   console.log("added template2 to templates collection");
-      // });
-    }
-  });
+			//   console.log("added template2 to templates collection");
+			// });
+		}
+	});
 }
