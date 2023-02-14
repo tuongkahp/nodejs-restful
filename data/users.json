@@ -1,12 +1,25 @@
 [
 	{
-		"id": 1,
+		"id": "b10a7237-3bd7-4831-b89d-db33f4055310",
+		"email": "admin@gmail.com",
 		"userName": "admin",
-		"password": "admin"
+		"password": "$2a$08$R/cQObKahFRcrl9zu6zzx.hMPxmsWz0ymhFP8v3cO4gqqyiCfuiza",
+		"fullName": "Admin",
+		"isAdmin": true,
+		"createdUser": "admin",
+		"createdTime": "2023-02-14 16:02:55",
+		"updatedUser": "admin",
+		"updatedTime": "2023-02-14 16:02:55"
 	},
 	{
-		"id": 2,
-		"userName": "admin",
-		"password": "admin"
+		"id": "1ccd9034-c15d-4c7f-b59e-4fe7e266b58c",
+		"userName": "tuong211",
+		"password": "$2a$08$dvSjb7vvGeJu93gfHS0QwOr9RDIPfIyjCvh3owPg10NJBafqCqdKS",
+		"fullName": "Tuong",
+		"isAdmin": true,
+		"createdUser": "admin",
+		"createdTime": "2023-02-14 16:22:50",
+		"updatedUser": "admin",
+		"updatedTime": "2023-02-14 16:22:50"
 	}
 ]

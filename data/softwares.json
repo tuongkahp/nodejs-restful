@@ -1,0 +1,24 @@
+[
+	{
+		"id": "1fee4519-54a0-4871-a88e-ebe0373ebafc",
+		"name": "Kế toán đã sửa",
+		"url": "http://google.com 123",
+		"logoUrl": "http://google.com 123",
+		"status": 0,
+		"createdUser": "admin",
+		"createdTime": "2023-02-14 15:21:24",
+		"updatedUser": "admin",
+		"updatedTime": "2023-02-14 15:21:56"
+	},
+	{
+		"id": "4ded3219-f1d9-48b1-8de1-ddf7c5ef58ba",
+		"name": "Kế toán 2",
+		"url": "http://google.com",
+		"logoUrl": "http://google.com",
+		"status": 1,
+		"createdUser": "admin",
+		"createdTime": "2023-02-14 15:21:26",
+		"updatedUser": "admin",
+		"updatedTime": "2023-02-14 15:21:26"
+	}
+]

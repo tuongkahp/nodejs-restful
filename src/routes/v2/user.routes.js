@@ -1,5 +1,5 @@
-const { authJwt } = require("../../middlewares");
-const controller = require("../../controllers/v2/user.controller");
+const controllerV2 = require("../../controllers/v2/user.controller");
+const { verifySignUp, authJwt } = require("../../middlewares/v2");
 
 module.exports = function (app) {
 	app.use(function (req, res, next) {
@@ -10,37 +10,7 @@ module.exports = function (app) {
 		next();
 	});
 
-	app.get("/api/test/all", controller.allAccess);
-
-	app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
-
-	app.get(
-		"/api/test/mod",
-		[authJwt.verifyToken, authJwt.isModerator],
-		controller.moderatorBoard
-	);
-
-	app.get(
-		"/api/test/admin",
-		[authJwt.verifyToken, authJwt.isAdmin],
-		controller.adminBoard
-	);
-
-	app.get(
-		"/api/v2/user",
-		[authJwt.verifyToken],
-		controller.getUserInfo
-	);
-
-	app.put(
-		"/api/v2/user/change-pass",
-		[authJwt.verifyToken],
-		controller.changePass
-	);
-
-	app.put(
-		"/api/v2/user",
-		[authJwt.verifyToken],
-		controller.updateUserInfo
-	);
+	app.post("/api/v2/users", [authJwt.verifyToken], controllerV2.addUser);
+	app.put("/api/v2/users", [authJwt.verifyToken], controllerV2.updateUser);
+	app.get("/api/v2/users", [authJwt.verifyToken], controllerV2.get);
 };
