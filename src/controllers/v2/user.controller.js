@@ -1,6 +1,6 @@
 const { v4 } = require("uuid");
 const constResCode = require("../../constants/constResCode");
-const { addUserData, getUsersData, updateUserData } = require("../../utils/crud");
+const { addUserData, getUsersData, updateUserData, deleteUserData } = require("../../utils/crud");
 const timeHelper = require("../../utils/timeHelper");
 const bcrypt = require("bcryptjs");
 
@@ -47,8 +47,13 @@ exports.get = async (req, res) => {
 exports.addUser = async (req, res) => {
 	let userInfo = req.body
 
-	let users = getUsersData()
+	if (!userInfo.userName || !userInfo.password)
+		res.send({
+			code: constResCode.FAILURE,
+			message: "Thông tin tài khoản không hợp lệ"
+		})
 
+	let users = getUsersData()
 	let user = users.find(x => x.userName == req.body.userName)
 
 	if (user) {
@@ -63,6 +68,7 @@ exports.addUser = async (req, res) => {
 		fullName: userInfo.fullName,
 		phoneNumber: userInfo.phoneNumber,
 		isAdmin: userInfo.isAdmin,
+		status: userInfo.status ?? 0,
 		createdUser: req.user?.userName,
 		createdTime: timeHelper.now(),
 		updatedUser: req.user?.userName,
@@ -84,7 +90,7 @@ exports.updateUser = async (req, res) => {
 	if (!user) {
 		res.send({
 			code: constResCode.FAILURE,
-			message: "Người dùng không tồn tại"
+			message: "Tài khoản không tồn tại"
 		})
 		return
 	}
@@ -96,10 +102,33 @@ exports.updateUser = async (req, res) => {
 		updatedTime: timeHelper.now()
 	}
 
+	if (req.body.password)
+		user.password = bcrypt.hashSync(req.body.password ?? uuidv4(), 8)
+
 	updateUserData(user)
 
 	res.send({
 		code: constResCode.SUCCESS,
 		message: "Sửa thông tin tài khoản thành công"
+	})
+}
+
+exports.deleteUser = async (req, res) => {
+	let users = getUsersData()
+	let user = users.find(x => x.id == req.params?.id)
+
+	if (!user) {
+		res.send({
+			code: constResCode.FAILURE,
+			message: "Tài khoản không tồn tại"
+		})
+		return
+	}
+
+	deleteUserData(req.params?.id)
+
+	res.send({
+		code: constResCode.SUCCESS,
+		message: "Xóa tài khoản thành công"
 	})
 }

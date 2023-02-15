@@ -13,4 +13,5 @@ module.exports = function (app) {
 	app.post("/api/v2/softwares", [authJwt.verifyToken], controllerV2.addSoftware);
 	app.put("/api/v2/softwares", [authJwt.verifyToken], controllerV2.updateSoftware);
 	app.get("/api/v2/softwares", [authJwt.verifyToken], controllerV2.get);
+	app.delete("/api/v2/softwares/:id", [authJwt.verifyToken], controllerV2.deleteSoftware);
 };

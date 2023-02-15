@@ -1,7 +1,7 @@
 // const config = require("../../configs/auth.config");
 const { uuid } = require("uuidv4");
 const constResCode = require("../../constants/constResCode");
-const { addSoftwareData, getSoftwaresData, updateSoftwareData } = require("../../utils/crud");
+const { addSoftwareData, getSoftwaresData, updateSoftwareData, deleteSoftwareData } = require("../../utils/crud");
 const timeHelper = require("../../utils/timeHelper");
 // const authBussiness = require("../../business/v2/auth.business");
 // const { OAuth2Client } = require('google-auth-library');
@@ -89,12 +89,20 @@ exports.getDetail = async (req, res) => {
 };
 
 exports.addSoftware = async (req, res) => {
+	let softwareInfo = req.body
+
+	if (!softwareInfo.name)
+		res.send({
+			code: constResCode.FAILURE,
+			message: "Thông tin phần mềm không hợp lệ"
+		})
+
 	const software = {
 		id: uuid(),
-		name: req.body.name,
-		url: req.body.url,
-		logoUrl: req.body.logoUrl,
-		status: req.body.status,
+		name: softwareInfo.name,
+		url: softwareInfo.url,
+		logoUrl: softwareInfo.logoUrl,
+		status: softwareInfo.status,
 
 		createdUser: req.user?.userName,
 		createdTime: timeHelper.now(),
@@ -137,5 +145,25 @@ exports.updateSoftware = async (req, res) => {
 	res.send({
 		code: constResCode.SUCCESS,
 		message: "Sửa sản phẩm thành công"
+	})
+}
+
+exports.deleteSoftware = async (req, res) => {
+	let softwares = getSoftwaresData()
+	let software = softwares.find(x => x.id == req.params?.id)
+
+	if (!software) {
+		res.send({
+			code: constResCode.FAILURE,
+			message: "Sản phẩm không tồn tại"
+		})
+		return
+	}
+
+	deleteSoftwareData(req.params?.id)
+
+	res.send({
+		code: constResCode.SUCCESS,
+		message: "Xóa sản phẩm thành công"
 	})
 }

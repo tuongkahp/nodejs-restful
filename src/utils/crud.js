@@ -8,10 +8,36 @@ const addUserData = (data) => {
 	fs.writeFileSync('data/users.json', stringifyData)
 }
 
+const updateUserData = (data) => {
+	let users = getUsersData() || []
+
+	let user = users.find(x => x.id == data.id)
+
+	if (!user) return
+
+	let newUser = users.map(x => (x.id === data.id ? { ...x, ...data } : x));
+
+	let stringifyData = JSON.stringify(newUser)
+	fs.writeFileSync('data/users.json', stringifyData)
+}
+
 //get the user data from json file
 const getUsersData = () => {
 	let jsonData = fs.readFileSync('data/users.json').toString() || "[]"
 	return JSON.parse(jsonData)
+}
+
+const deleteUserData = (id) => {
+	let users = getUsersData() || []
+
+	let user = users.find(x => x.id == id)
+
+	if (!user) return
+
+	let newUsers = users.map(x => x.id !== id);
+
+	let stringifyData = JSON.stringify(newUsers)
+	fs.writeFileSync('data/users.json', stringifyData)
 }
 
 //read the user data from json file
@@ -30,7 +56,6 @@ const updateSoftwareData = (data) => {
 	if (!software) return
 
 	let newSoftwares = softwares.map(x => (x.id === data.id ? { ...x, ...data } : x));
-	console.log(newSoftwares);
 
 	let stringifyData = JSON.stringify(newSoftwares)
 	fs.writeFileSync('data/softwares.json', stringifyData)
@@ -41,10 +66,29 @@ const getSoftwaresData = () => {
 	return JSON.parse(jsonData)
 }
 
+const deleteSoftwareData = (id) => {
+	let softwares = getSoftwaresData() || []
+
+	let software = softwares.find(x => x.id == id)
+
+	if (!software) return
+
+	let newSoftwares = softwares.map(x => x.id !== id)
+
+	let stringifyData = JSON.stringify(newSoftwares)
+	fs.writeFileSync('data/softwares.json', stringifyData)
+}
+
 module.exports = {
-	addUserData: addUserData,
-	getUsersData: getUsersData,
+	//User
+	addUserData,
+	getUsersData,
+	updateUserData,
+	deleteUserData,
+
+	// Software
 	addSoftwareData,
 	getSoftwaresData,
-	updateSoftwareData
+	updateSoftwareData,
+	deleteSoftwareData
 }

@@ -5,7 +5,7 @@ const authBussiness = require("../../business/v2/auth.business")
 var jwt = require("jsonwebtoken")
 var bcrypt = require("bcryptjs")
 const moment = require("moment")
-const { getUsersData } = require("../../utils/crud")
+const { getUsersData, updateUserData } = require("../../utils/crud")
 
 exports.register = async (req, res) => {
 	const user = {
@@ -51,8 +51,6 @@ exports.login = (req, res) => {
 		expiresIn: 86400 // 24 hours
 	})
 
-	var authorities = []
-
 	res.send({
 		code: constResCode.SUCCESS,
 		message: "Đăng nhập thành công",
@@ -61,5 +59,34 @@ exports.login = (req, res) => {
 		accessToken: token,
 		expiredTime: moment().add(7, 'days'),
 		isAdmin: user.isAdmin ?? false
+	})
+}
+
+exports.changePassword = (req, res) => {
+	let users = getUsersData()
+
+	let user = users.find(x => x.userName == req.user.userName)
+
+	if (!user)
+		return res.send({ code: constResCode.FAILURE, message: "Tải khoản không tồn tại" })
+
+	var passwordIsValid = bcrypt.compareSync(
+		req.body.oldPassword,
+		user.password
+	)
+
+	if (!passwordIsValid) {
+		return res.send({
+			code: constResCode.WRONG_PASSWORD,
+			message: "Mật khẩu cũ không chính xác"
+		})
+	}
+
+	user.password = bcrypt.hashSync(req.body.newPassword ?? uuidv4(), 8)
+	updateUserData(user)
+
+	res.send({
+		code: constResCode.SUCCESS,
+		message: "Đổi mật khẩu thành công"
 	})
 }
