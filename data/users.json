@@ -1,1 +1,27 @@
-[true,false]
+[
+	{
+		"id": "b10a7237-3bd7-4831-b89d-db33f4055310",
+		"email": "admin@gmail.com",
+		"userName": "admin",
+		"password": "$2a$08$7qrWdHaE91pZdpAgqzPJPetHEFuPFjkAAZ/MLCWcQFFzurB.AswIG",
+		"fullName": "Admin",
+		"isAdmin": true,
+		"status": 1,
+		"createdUser": "admin",
+		"createdTime": "2023-02-14 16:02:55",
+		"updatedUser": "admin",
+		"updatedTime": "2023-02-14 16:02:55"
+	},
+	{
+		"id": "3112d5f9-7353-448e-ba4e-dc1c1aed2c8e",
+		"userName": "tuong21111",
+		"password": "$2a$08$AmXQGaJJEYqqdyaoYIwDbOMsNVFY67bIlCMgeL3NCqrhBtPgJhwiG",
+		"fullName": "Tuong",
+		"isAdmin": true,
+		"status": 1,
+		"createdUser": "admin",
+		"createdTime": "2023-02-15 14:32:01",
+		"updatedUser": "admin",
+		"updatedTime": "2023-02-15 14:32:01"
+	}
+]
