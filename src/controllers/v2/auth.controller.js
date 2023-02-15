@@ -37,11 +37,18 @@ exports.login = (req, res) => {
 
 	if (!passwordIsValid) {
 		return res.send({
-			code: constResCode.WRONG_PASSWORD,
+			code: constResCode.FAILURE,
 			accessToken: null,
 			message: "Tên tài khoản hoặc mật khẩu không đúng"
 		})
 	}
+
+	if (!user === 0)
+		return res.send({
+			code: constResCode.FAILURE,
+			accessToken: null,
+			message: "Tài khoản đã bị khóa"
+		})
 
 	var token = jwt.sign({
 		id: user.id,
@@ -51,14 +58,20 @@ exports.login = (req, res) => {
 		expiresIn: 86400 // 24 hours
 	})
 
+	console.log(user);
+
 	res.send({
 		code: constResCode.SUCCESS,
 		message: "Đăng nhập thành công",
-		id: user.id,
-		username: user.username,
-		accessToken: token,
-		expiredTime: moment().add(7, 'days'),
-		isAdmin: user.isAdmin ?? false
+		data: {
+			id: user.id,
+			userName: user.userName,
+			fullName: user.fullName,
+			status: user.status,
+			accessToken: token,
+			expiredTime: moment().add(7, 'days'),
+			isAdmin: user.isAdmin ?? false
+		}
 	})
 }
 

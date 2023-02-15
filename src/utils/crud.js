@@ -34,7 +34,7 @@ const deleteUserData = (id) => {
 
 	if (!user) return
 
-	let newUsers = users.map(x => x.id !== id);
+	let newUsers = users.filter(x => x.id !== id);
 
 	let stringifyData = JSON.stringify(newUsers)
 	fs.writeFileSync('data/users.json', stringifyData)
@@ -73,7 +73,7 @@ const deleteSoftwareData = (id) => {
 
 	if (!software) return
 
-	let newSoftwares = softwares.map(x => x.id !== id)
+	let newSoftwares = softwares.filter(x => x.id !== id)
 
 	let stringifyData = JSON.stringify(newSoftwares)
 	fs.writeFileSync('data/softwares.json', stringifyData)
